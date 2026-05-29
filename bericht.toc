@@ -1,8 +1,0 @@
-\babel@toc {ngerman}{}\relax 
-\contentsline {section}{\numberline {1}Abkürzungsverzeichnis}{III}{section.1}%
-\contentsline {section}{\numberline {2}Abbildungsverzeischnis}{IV}{section.2}%
-\contentsline {section}{\numberline {3}Tabellenverzeichnis}{V}{section.3}%
-\contentsline {section}{\numberline {4}Einleitung}{1}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Unternehmensvorstellung}{1}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Problemstellung}{2}{subsection.4.2}%
-\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
