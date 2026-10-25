@@ -2,13 +2,16 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
+\usepackage[scaled=0.82]{beramono}
 \usepackage{graphicx}
 \usepackage{geometry}
+\usepackage{listings}
 \usepackage{xcolor}
 \usepackage{helvet}
 \usepackage{enumitem}
 \usepackage{url}
-\usepackage{cite}
+\usepackage{longtable}
+\usepackage{csquotes}
 \renewcommand{\familydefault}{\sfdefault}
 
 \usepackage{setspace}
@@ -16,6 +19,102 @@
 
 \geometry{a4paper, left=2.5cm, right=3cm, top=2cm, bottom=2cm, includefoot, headheight=5pt, headsep=1cm, footskip=0.5cm}
 
+% Terraform Config Beginn
+
+% 1. Eigene Farben definieren (Dezent und professionell)
+\definecolor{tfkeyword}{HTML}{0000FF}    % Blau für Keywords
+\definecolor{tfstring}{HTML}{A31515}     % Dunkelrot für Strings
+\definecolor{tfcomment}{HTML}{008000}    % Grün für Kommentare
+\definecolor{tfbg}{HTML}{F8F8F8}         % Sehr helles Grau für den Hintergrund
+\definecolor{tfborder}{HTML}{DDDDDD}     % Hellgrau für den Rahmen
+
+% 2. Eigene Sprache für Terraform (HCL) definieren
+\lstdefinelanguage{Terraform}{
+	% Die wichtigsten Terraform-Schlüsselwörter und Funktionen
+	morekeywords={
+		resource, data, provider, provider_installation, filesystem_mirror, direct,
+		variable, output, module, terraform, locals, for_each, count, dynamic, 
+		provisioner, backend, required_providers, check, assert, condition, 
+		error_message, try, length, for, in, if, true, false, null
+	},
+	morecomment=[l]{\#},        % Zeilenkommentar mit #
+	morecomment=[l]{//},        % Zeilenkommentar mit //
+	morecomment=[s]{/*}{*/},    % Blockkommentar
+	morestring=[b]",            % Strings in doppelten Anführungszeichen
+	alsoletter={_}              % Unterstriche in Wörtern zulassen
+}
+
+% 3. lstset global konfigurieren
+\lstset{
+	language=Terraform,                    % Standardmäßig unsere neue Sprache nutzen
+	backgroundcolor=\color{tfbg},
+	basicstyle=\ttfamily\footnotesize,     % Monospace Schriftart, etwas kleiner
+	keywordstyle=\color{tfkeyword}\bfseries, 
+	stringstyle=\color{tfstring},
+	commentstyle=\color{tfcomment}\itshape, % Kommentare kursiv und grün
+	numberstyle=\tiny\color{gray},         % Zeilennummern klein und grau
+	numbers=left,                          % Zeilennummern links
+	stepnumber=1,
+	numbersep=8pt,                         % Abstand der Nummern zum Code
+	showstringspaces=false,                % Keine komischen Leerzeichen-Symbole in Strings
+	breaklines=true,                       % Automatischer Zeilenumbruch bei zu langem Code
+	breakatwhitespace=true,
+	frame=single,                          % Einfacher Rahmen um den Code
+	rulecolor=\color{tfborder},            % Rahmenfarbe
+	tabsize=2,
+	captionpos=b,                          % Bildunterschrift (Caption) unter dem Code (bottom)
+	% Der Fix für die deutschen Umlaute
+	extendedchars=true,
+	literate={ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ß}{{\ss}}1
+}
+
+\lstdefinestyle{terminaloutput}{
+	language={},
+	basicstyle=\ttfamily\fontsize{9}{11}\selectfont,
+	backgroundcolor=\color{tfbg},
+	frame=single,
+	rulecolor=\color{tfborder},
+	numbers=none,
+	showstringspaces=false,
+	keepspaces=true,
+	columns=fullflexible,
+	breaklines=false,
+	tabsize=2,
+	captionpos=b,
+	literate=
+	{ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{ß}{{\ss}}1
+	{│}{{|}}1
+	{╷}{{+}}1
+	{╵}{{+}}1
+	{├}{{+}}1
+	{─}{{-}}1
+}
+
+% Terraform Config Ende
+
+
+\usepackage[
+backend=biber,
+style=authortitle-ibid, % Macht IMMER den Kurzbeleg (Autor + Titel)
+sorting=nyt,       % Literaturverzeichnis nach Nachname sortiert
+autocite=footnote  % \autocite erzeugt eine Fußnote
+]{biblatex}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\addbibresource{literature.bib} % Deine Bib-Datei
+
+\DeclareNameFormat{familygivenall}{%
+	\nameparts{#1}%
+	\ifnumequal{\value{listcount}}{1}
+	{\namepartfamily\addcomma\space\namepartgiveni}
+	{\namepartfamily\addcomma\space\namepartgiveni}%
+	\usebibmacro{name:andothers}%
+}
+
+%\DeclareNameAlias{author}{familygivenall}
+\DeclareNameAlias{author}{family-given}
 
 \newenvironment{listing}
 { \begin{itemize}[noitemsep, nolistsep]    }
@@ -29,14 +128,13 @@
 	linkcolor=black,
 	filecolor=magenta,      
 	urlcolor=blue,
-	citecolor=gray,
-	pdftitle={Luis Herr Schulaufgabe},
+	citecolor=darkgray,
+	pdftitle={Praxisphasenbericht Luis Herr},
 }
 \urlstyle{same}
 
 % Farben gemäß Bildvorlage
 \definecolor{thmblue}{RGB}{74,92,102}
-\definecolor{textgray}{RGB}{85,90,95}
 \definecolor{titlepagegray}{HTML}{405563}
 
 
@@ -44,10 +142,11 @@
 \setkomafont{subsection}{\normalfont\sffamily\underline\linebreak\fontseries{sb}\selectfont} % Set all subsection titles to the same formatting
 \KOMAoptions{numbers=endperiod} % set a . after each numbering
 \KOMAoptions{parskip=full} % remove the first space of a new line
-\RedeclareSectionCommand[runin=false,afterskip=-.5\baselineskip]{section} % reduce the space between section title and content
-\RedeclareSectionCommand[runin=false,afterskip=-.5\baselineskip]{subsection} % reduce the space between subsection title and content
-\RedeclareSectionCommand[runin=false,afterskip=-.5\baselineskip]{subsubsection} % reduce the space between subsubsection title and content
+\RedeclareSectionCommand[runin=false, beforeskip=-0.5\baselineskip, afterskip=-.5\baselineskip]{section}
+\RedeclareSectionCommand[runin=false, beforeskip=-0.3\baselineskip, afterskip=-.5\baselineskip]{subsection}
+\RedeclareSectionCommand[runin=false, beforeskip=-0.1\baselineskip, afterskip=-.5\baselineskip]{subsubsection}
 
+\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
 
 \usepackage[ddmmyyyy]{datetime} % formatted dates
 \renewcommand{\dateseparator}{.} % set the date from 01/01/2001 to 01.01.2001 
@@ -68,7 +167,7 @@
 \begin{document}
 	\pagenumbering{Roman}
 	\thispagestyle{empty}
-	\color{textgray}
+	\color{darkgray}
 	\begin{titlepage}
 		%\newgeometry{left=2.45cm,right=2.45cm,top=1.45cm,bottom=2cm}
 		\thispagestyle{empty}
@@ -87,56 +186,71 @@
 		\end{minipage}
 		
 		\begin{center}
-			\vspace*{0.85cm}
-			{\Large\bfseries 1. Praxisphasenbericht \par}
+			\vspace{-0.5cm}
+			{\Large\bfseries X. Praxisphase im WS/SS 2X \par}
 			\vspace{0.2cm}
-			\noindent {zur Erlangung des Grades Bachelor / Master of Arts / Science / Engineering \par}
+			\noindent {zur Erlangung des Grades Bachelor / Master of Arts / Science / Engineering (optional)\par}
 		\end{center}
 		
 		
 		\noindent Thema:\\
-		\noindent {\Large\bfseries Erstellung einer Tollen \LaTeX  Vorlage für StudiumPlus \par}
+		\noindent {\Large\bfseries Erstellung einer tollen \LaTeX\space Vorlage für StudiumPlus \par}
 		
 		\vspace{1cm}
 		
 		\noindent
 		\begin{tabular}{@{}p{4.35cm}p{8.0cm}@{}}
-			Vorgelegt von: & Max Mustermann\\
-			& Musterstraße 1 \\ & 35069 Musterstadt \\[0.45em]
-			Matrikelnummer: & 123456 \\[2.35em]
+			Vorgelegt von: & Hans Peter\\
+			& Strassenname 42 \\ & 11111 Stadt\\[0.2em]
+			Matrikelnummer: & 123123123 \\[3em]
 			Eingereicht bei & \\
-			Hochschulbetreuer/-in: & Prof. Dr. Rudolf Meister\\
-			Fachbetreuer/-in: & Harald Musterbetreuer\\[2.6em]
-			Unternehmen: & Musterfirma GmbH. \\[1.6em]
+			Hochschulbetreuer: & Prof. Dr. Marianne Künstlername\\
+			Fachbetreuer: & Fred Jones\\[3em]
+			Unternehmen: & Geisterjäger GmbH \\
+									& Strassenname 404 \\
+									& 11112 Nebenstadt \\[1.5em]
 			Eingereicht am: & \today \\
 		\end{tabular}
-		
-		\vspace{2.15cm}
+		\vspace{\fill}
 		\begin{flushright}
-			\includegraphics[height=0.05\textheight]{kfw.png}%
+			\includegraphics[height=0.08\textheight]{firmenlogo.png} % You have to experiment with the height of the image. It depends on the size of the image you use... I would ALWAYS recommend to choose a bigger logo and scale it here down.
 		\end{flushright}
 		
 		\restoregeometry
 	\end{titlepage}
 	
 	\newpage
+	\setcounter{page}{1}
 	\newgeometry{left=4cm, right=1.5cm, top=3cm, bottom=2cm}
 	
 	\tableofcontents
+	\newpage
+	
+	\addsec{Sperrvermerk}
+	Die vorliegende Ausarbeitung beinhaltet interne vertrauliche Informationen der Geisterjäger GmbH. \\[1em]
+	Die Weitergabe des Inhaltes der Arbeit und beiliegender Zeichnungen und 
+	Daten im Gesamten oder in Teilen ist grundsätzlich untersagt. Es dürfen keinerlei 
+	Kopien oder Abschriften – auch in digitaler Form – gefertigt werden. Ausnahmen 
+	bedürfen der schriftlichen Genehmigung der Geisterjäger GmbH.
+	
 	
 	\newpage
 	
-	\section{Abkürzungsverzeichnis}
-	\begin{listing}
-		\item[] THM – Technische Hochschule Mittelhessen
-		\item[] ZDH – Wissenschaftliches Zentrum Dualer Hochschulstudien
-	\end{listing}
-	\newpage
-	
-	\section{Abbildungsverzeischnis}
+	\addsec{Abkürzungsverzeichnis}
+	\begin{longtable}{@{} l c p{11cm} @{}}
+		ZDH & – & Zentrum dualer Hochschulstudien \\
+	\end{longtable}
 	
 	\newpage
-	\section{Tabellenverzeichnis}
+	\phantomsection
+	\addcontentsline{toc}{section}{\listfigurename}
+	\listoffigures
+	
+	\newpage
+	\phantomsection
+	\addcontentsline{toc}{section}{\lstlistlistingname}
+	\lstlistoflistings
+	
 	
 	\newpage
 	\pagenumbering{arabic}
@@ -150,14 +264,28 @@
 	Strukturell basiert das Konzept von StudiumPlus auf einer engen Public-Private-Partnership (PPP) zwischen drei zentralen Akteuren: der Hochschule selbst, den kooperierenden Partnerunternehmen und dem dazugehörigen Förderverein, dem CompetenceCenter Duale Hochschulstudien StudiumPlus e.V. (CCD). Während das ZDH und die THM für die akademische Lehre, die Akkreditierung der Studiengänge sowie die Qualitätssicherung zuständig sind, übernehmen die über 1.000 im CCD organisierten Partnerunternehmen die praxisseitige Ausbildung und die finanzielle Vergütung der Studierenden.
 	Das Bildungsportfolio konzentriert sich vor allem auf zukunftsorientierte und am Arbeitsmarkt stark nachgefragte Fachrichtungen in den Bereichen Wirtschaft, Technik und Informatik. Das didaktische Kernprinzip bildet hierbei das sogenannte Block-Modell. Dabei wechseln die Studierenden in einem festen Rhythmus von meist drei Monaten zwischen den theoretischen Vorlesungsphasen an der Hochschule und den praktischen Einsatzphasen im Betrieb. Durch diesen kontinuierlichen Transfer wird gewährleistet, dass erlerntes theoretisches Wissen unmittelbar in realen Unternehmensprojekten angewendet werden kann.
 	
-	Das primäre Alleinstellungsmerkmal von StudiumPlus ist die hohe Praxisorientierung, welche sich in einer Absolventen-Übernahmequote von über 90 Prozent widerspiegelt. Die im Rahmen des Studiums angefertigten Projekt- und Praxisphasenberichte dienen als akademisches Bindeglied, um reale, betriebliche Problemstellungen mit wissenschaftlichen Methoden effizient zu lösen. ~\cite{studiumplus2025,thm_profil}
+	Das primäre Alleinstellungsmerkmal von StudiumPlus ist die hohe Praxisorientierung, welche sich in einer Absolventen-Übernahmequote von über 90 Prozent widerspiegelt. Die im Rahmen des Studiums angefertigten Projekt- und Praxisphasenberichte dienen als akademisches Bindeglied, um reale, betriebliche Problemstellungen mit wissenschaftlichen Methoden effizient zu lösen \footcite{studiumplus2025,thm_profil}.
 	
-	\subsection{Problemstellung}
-	Aktuell ist es so dass
-	
+
+	\newpage
+	\printbibliography[heading=bibnumbered, title={Literaturverzeichnis}]
+	\newpage
+
+	\appendix
+	\section{Anhang}
 	
 	
 	\newpage
-	\bibliographystyle{unsrt}
-	\bibliography{literature}
+	\addcontentsline{toc}{section}{Versicherung}
+	\section*{Versicherung}
+	Ich versichere, dass ich diese Arbeit selbstständig verfasst und keine anderen als die angegebenen Hilfsmittel benutzt habe. Die den benutzten Hilfsmitteln wörtlich oder inhaltlich entnommenen Stellen habe ich unter Quellenangaben kenntlich gemacht. Ich bin in vollem Umfang für die Eigenständigkeit, den Inhalt und die Qualität meiner Arbeit verantwortlich. Ich bleibe auch bei Verwendung von Hilfsmitteln, die Künstliche Intelligenz (KI) beinhalten können, in vollem Umfang verantwortlich für meine Argumentation, Aussagen, Übersetzungen, Zitate und Quellenangaben, ins besondere für deren Richtigkeit, Sachangemessenheit, wissenschaftliche Anerkennung, Originalität und Aktualität. Die Verwendung solcher Hilfsmittel wurde vorab mit dem Partnerunternehmen abgestimmt. Die im Literaturverzeichnis angegebenen Quellen habe ich vor dem Hintergrund des zitierten Sachverhalts im Original gelesen und gemäß den Grundsätzen wissenschaftlichen Arbeitens überprüft.\\[1em] 
+	Die Arbeit hat in gleicher oder ähnlicher Form noch keiner anderen Prüfungsbehörde vorgelegen. 
+	
+	\vspace{\fill}
+	\noindent
+	\begin{tabular}{@{}p{6cm} @{\hspace{2cm}} p{6cm}@{}}
+		\hrulefill & \hrulefill \\
+		Ort, Datum & Unterschrift
+	\end{tabular}
+	
 \end{document}
