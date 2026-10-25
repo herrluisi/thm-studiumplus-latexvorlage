@@ -1,4 +1,4 @@
-# THM – Studiumplus Vorlagen – WICHTIG: WIP!
+# THM – Studiumplus Vorlagen
 Dadurch dass die THM und StudiumPlus keinerlei LaTeX Vorlagen bereitstellt haben wir nach den Vorgaben unsere eigene gebaut.
 
 Dieses Repo ist dazu da wissenschaftliche LaTeX Vorlagen für die THM und StudiumPlus bereitzustellen. Diese Vorlegen sind **NICHT** offiziell, aber funktionieren und werden allgemeine erstmal akzeptiert.
